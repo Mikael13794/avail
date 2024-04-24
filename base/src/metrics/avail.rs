@@ -16,10 +16,10 @@ pub struct AvailMetrics {
 
 impl AvailMetrics {
 	/// Creates and registries Avail Metrics.
-	pub fn new(registry: &Registry) -> Result<Self, PrometheusError> {
-		let import_block = ImportBlockMetrics::new(registry)?;
-		let header_extension = HeaderExtensionBuilderMetrics::new(registry)?;
-		let kate_rpc = KateRpcMetrics::new(registry)?;
+	pub fn new(Registry: &Registry) -> Result<Self, PrometheusError> {
+		let import_block = ImportBlockMetrics::new(Registry)?;
+		let header_extension = HeaderExtensionBuilderMetrics::new(Registry)?;
+		let kate_rpc = KateRpcMetrics::new(Registry)?;
 
 		log::info!(
 			target: LOG_TARGET,
@@ -43,7 +43,7 @@ pub struct HeaderExtensionBuilderMetrics {
 }
 
 impl HeaderExtensionBuilderMetrics {
-	pub fn new(registry: &Registry) -> Result<Self, PrometheusError> {
+	pub fn new(Registry: &Registry) -> Result<Self, PrometheusError> {
 		let buckets = [
 			25000.0,
 			100_000.0,
@@ -58,7 +58,7 @@ impl HeaderExtensionBuilderMetrics {
 			10_000_000.0, // 5s, 7.5s, 10s
 		];
 		let total_execution_time = custom_histogram(
-			registry,
+			Registry,
 			"avail_header_extension_builder_total_execution_time",
 			"Header Extension Builder - Total Execution Time in microseconds",
 			buckets.to_vec(),
@@ -80,7 +80,7 @@ impl HeaderExtensionBuilderMetrics {
 			5_000_000.0, // 2s, 3s, 4s, 5s
 		];
 		let evaluation_grid_build_time = custom_histogram(
-			registry,
+			Registry,
 			"avail_header_extension_builder_evaluation_grid_build_time",
 			"Header Extension Builder - Evaluation Grid Build Time in microseconds",
 			buckets.to_vec(),
@@ -100,7 +100,7 @@ impl HeaderExtensionBuilderMetrics {
 			10_000_000.0, // 5s, 7.5s, 10s
 		];
 		let commitment_build_time = custom_histogram(
-			registry,
+			Registry,
 			"avail_header_extension_builder_commitment_build_time",
 			"Header Extension Builder - Commitment Build Time in microseconds",
 			buckets.to_vec(),
@@ -108,13 +108,13 @@ impl HeaderExtensionBuilderMetrics {
 
 		let buckets = [4.0, 6.0, 8.0, 12.0, 16.0, 32.0, 64.0, 128.0, 256.0, 512.0];
 		let grid_rows = custom_histogram(
-			registry,
+			Registry,
 			"avail_header_extension_builder_grid_rows",
 			"Header Extension Builder - Grid Rows",
 			buckets.to_vec(),
 		)?;
 		let grid_cols = custom_histogram(
-			registry,
+			Registry,
 			"avail_header_extension_builder_grid_cols",
 			"Header Extension Builder - Grid Columns",
 			buckets.to_vec(),
@@ -177,14 +177,14 @@ pub struct KateRpcMetrics {
 }
 
 impl KateRpcMetrics {
-	pub fn new(registry: &Registry) -> Result<Self, PrometheusError> {
+	pub fn new(Registry: &Registry) -> Result<Self, PrometheusError> {
 		let buckets = [
 			1000.0, 5000.0, 10000.0, 25000.0, //  1ms, 5ms, 10ms, 25ms
 			50000.0, 75000.0, 100_000.0, 150_000.0, // 50ms, 75ms, 100ms, 150ms
 			200_000.0, 300_000.0, 400_000.0, 500_000.0, // 200ms, 300ms, 400ms, 500ms
 		];
 		let query_rows_execution_time = custom_histogram(
-			registry,
+			Registry,
 			"avail_kate_rpc_query_rows_execution_time",
 			"Kate RPC - Query Rows Time in microseconds",
 			buckets.to_vec(),
@@ -204,7 +204,7 @@ impl KateRpcMetrics {
 			17_500_000.0, // 12.5s, 15s, 17.5s
 		];
 		let query_proof_execution_time = custom_histogram(
-			registry,
+			Registry,
 			"avail_kate_rpc_query_proof_execution_time",
 			"Kate RPC - Query Proof Time in microseconds",
 			buckets.to_vec(),
@@ -216,7 +216,7 @@ impl KateRpcMetrics {
 			5000.0, 7500.0, 10000.0, // 5ms, 7.5ms, 10ms
 		];
 		let query_block_length_execution_time = custom_histogram(
-			registry,
+			Registry,
 			"avail_kate_rpc_query_block_length_execution_time",
 			"Kate RPC - Query Block Length Time in microseconds",
 			buckets.to_vec(),
@@ -228,7 +228,7 @@ impl KateRpcMetrics {
 			50000.0, // 50ms
 		];
 		let query_data_proof_execution_time = custom_histogram(
-			registry,
+			Registry,
 			"avail_kate_rpc_query_data_proof_execution_time",
 			"Kate RPC - Query Data Proof Time in microseconds",
 			buckets.to_vec(),
@@ -283,7 +283,7 @@ pub struct ImportBlockMetrics {
 	pub total_execution_time: Histogram,
 }
 impl ImportBlockMetrics {
-	pub fn new(registry: &Registry) -> Result<Self, PrometheusError> {
+	pub fn new(Registry: &Registry) -> Result<Self, PrometheusError> {
 		let buckets = [
 			500.0,
 			1000.0,
@@ -301,7 +301,7 @@ impl ImportBlockMetrics {
 		];
 
 		let total_execution_time = custom_histogram(
-			registry,
+			Registry,
 			"avail_import_block_total_execution_time",
 			"Import Block - Total Execution Time in microseconds",
 			buckets.to_vec(),
